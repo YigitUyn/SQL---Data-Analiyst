@@ -4,7 +4,8 @@ My journey in SQL! This repository contains SQL queries, data analysis projects,
 ## 🔍 Table of Contents  
 - [📂 Projects][https://www.kaggle.com/](https://www.kaggle.com/code/yigituyan/amazon-sale-report-with-sql) 
 - [📊 SQL Case Studies]([#SQL Studies](https://github.com/YigitUyn/SQL---Data-Analiyst/blob/main/SQL%20Studies))
-- [🛠️ SQL Techniques]([#SQL Techniques](https://github.com/YigitUyn/SQL---Data-Analiyst/blob/main/SQL%20Studies))
+- [🛠️ SQL Techniques]([#SQL Techniques](https://github.com/YigitUyn/SQL---Data-Analiyst/blob/main/SQL%20Techniques))
+  
 
 ## 📂 SQL Projects  
 ### 1️⃣ E-commerce Sales Analysis  

@@ -10,7 +10,7 @@ My journey in SQL! This repository contains SQL queries, data analysis projects,
 ### 1️⃣ E-commerce Sales Analysis  
 🔹 **Description**: Analyzing sales data using SQL queries.  
 🔹 **Key Skills**: Aggregations, Joins, CTEs, Window Functions.  
-🔹 **Dataset**: [Kaggle E-commerce Dataset]([https://www.kaggle.com/](https://www.kaggle.com/code/yigituyan/amazon-sale-report-with-sql))  
+🔹 **Dataset**: [Kaggle E-commerce Dataset]([https://www.kaggle.com/](https://www.kaggle.com/code/yigituyan/amazon-sale-report-with-sql)  
 🔹 **Query File**: [📄 sales_analysis.sql](sales_analysis.sql) 
 
 ## 🛠️ SQL Techniques  

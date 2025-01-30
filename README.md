@@ -3,7 +3,7 @@ My journey in SQL! This repository contains SQL queries, data analysis projects,
 
 ## 🔍 Table of Contents  
 - [📂 Projects](#projects)  
-- [📊 SQL Case Studies](#SQL Studies)  
+- [📊 SQL Case Studies]([#SQL Studies](https://github.com/YigitUyn/SQL---Data-Analiyst/blob/main/SQL%20Studies))
 - [🛠️ SQL Techniques](#techniques)
 
 ## 📂 SQL Projects  

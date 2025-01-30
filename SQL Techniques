@@ -1,1 +1,513 @@
+CREATE DATABASE sql_practice;
+
+CREATE TABLE students
+(
+id INT,
+name VARCHAR(40),
+address VARCHAR(100),
+exam_score INT
+);
+
+--- INSERT: Adds new data to the database.
+
+INSERT INTO students VALUES(120, 'Ali Can', 'Ankara', 75);
+INSERT INTO students VALUES(121, 'Veli Mert', 'Trabzon', 85);
+INSERT INTO students VALUES(122, 'Ayşe Tan', 'Bursa', 65);
+INSERT INTO students VALUES(123, 'Derya Soylu', 'Istanbul', 95);
+INSERT INTO students VALUES(124, 'Yavuz Bal', 'Ankara', 85);
+INSERT INTO students VALUES(125, 'Emre Gül', 'Hatay', 90);
+INSERT INTO students VALUES(126, 'Harun Reşit', 'Isparta', 100);
+
+SELECT * FROM students;
+
+-- QUESTION: Retrieve the id and name columns from the students table
+
+SELECT id, name FROM students;
+
+-- QUESTION: List all information of students whose exam score is greater than 80
+
+SELECT * FROM students WHERE exam_score > 80;
+
+-- QUESTION: List all information of students whose address is Ankara
+
+SELECT * FROM students WHERE address = 'Ankara';
+
+-- QUESTION: List the names of students whose exam score is 85 and address is Ankara
+
+SELECT name FROM students WHERE exam_score = 85 AND address = 'Ankara';
+
+-- QUESTION: List all information of students whose exam score is either 65 or 85
+
+SELECT * FROM students WHERE exam_score = 65 OR exam_score = 85;
+
+SELECT * FROM students WHERE exam_score IN (65, 85);
+
+-- QUESTION: List all information of students whose exam score is between 65 and 85
+
+SELECT * FROM students WHERE exam_score BETWEEN 65 AND 85;
+
+-- QUESTION: List the names and exam scores of students whose id is NOT between 122 and 125
+
+SELECT name, exam_score FROM students WHERE id NOT BETWEEN 122 AND 125;
+
+-- QUESTION: Delete the row where the exam score is 75
+
+DELETE FROM students WHERE exam_score = 75;
+
+-- QUESTION: Delete the row where the address is Trabzon
+
+DELETE FROM students WHERE address = 'Trabzon';
+
+-- QUESTION: Delete rows where the name is either "Derya Soylu" or "Yavuz Bal"
+
+DELETE FROM students WHERE name = 'Derya Soylu' OR name = 'Yavuz Bal';
+
+-- QUESTION: Delete rows where the exam score is less than 100
+
+DELETE FROM students WHERE exam_score < 100;
+
+-- QUESTION: Delete all rows from the table
+
+DELETE FROM students;
+
+/* QUESTION: Create a table named "employees" with columns id, name, and salary.
+- The "id" column should have a data type of INT and a PRIMARY KEY constraint.
+- The "name" column should have a data type of VARCHAR(30) and a UNIQUE constraint.
+- The "salary" column should have a data type of INT and a CHECK constraint ensuring salary is greater than 5000. It should also have a NOT NULL constraint. */
+
+CREATE TABLE employees(
+id INT PRIMARY KEY,
+name VARCHAR(30) UNIQUE,
+salary INT CHECK (salary > 5000) NOT NULL
+);
+
+CREATE TABLE parent
+(
+tax_no int PRIMARY KEY,
+company_name VARCHAR(50),
+contact_name VARCHAR(50)
+);
+
+INSERT INTO parent VALUES (101, 'IBM', 'Kim Yon');
+INSERT INTO parent VALUES (102, 'Huawei', 'Chin Li');
+INSERT INTO parent VALUES (103, 'Ericsson', 'Maki Tammen');
+INSERT INTO parent VALUES (104, 'Apple', 'Adam Eve');
+
+SELECT * FROM parent;
+
+CREATE TABLE child
+(
+supplier_tax_no int,
+product_id int,
+product_name VARCHAR(50),
+customer_name VARCHAR(50),
+CONSTRAINT fk FOREIGN KEY(supplier_tax_no) REFERENCES parent(tax_no)
+);
+
+INSERT INTO child VALUES(101, 1001,'Laptop', 'Ayse Can');
+INSERT INTO child VALUES(102, 1002,'Phone', 'Fatma Aka');
+INSERT INTO child VALUES(102, 1003,'TV', 'Ramazan Oz');
+INSERT INTO child VALUES(102, 1004,'Laptop', 'Veli Han');
+INSERT INTO child VALUES(103, 1005,'Phone', 'Canan Ak');
+INSERT INTO child VALUES(104, 1006,'TV', 'Ali Bak');
+INSERT INTO child VALUES(104, 1007,'Phone', 'Aslan Yilmaz');
+
+SELECT * FROM child;
+
+-- QUESTION 1: Insert a record into the child table with supplier_tax_no 101
+INSERT INTO child VALUES (101,2000,'Car','Burak');
+
+-- QUESTION 2: Insert a record into the child table with supplier_tax_no 105
+INSERT INTO child VALUES (105,3000,'Motorbike','Hasim'); -- This record cannot be inserted because 105 does not exist
+-- A primary key that does not exist in the parent table cannot be inserted into the child table.
+
+-- QUESTION 3: Insert a record into the child table with a NULL supplier_tax_no
+INSERT INTO child VALUES (102,NULL,'Bicycle','Nuri');
+
+-- QUESTION 4: Delete the record in the parent table where tax_no is 101
+DELETE FROM parent WHERE tax_no=101;
+-- A record in the parent table cannot be deleted unless the related records in the child table are deleted first.
+
+-- QUESTION 5: Delete the records in the child table where supplier_tax_no is 101
+DELETE FROM child WHERE supplier_tax_no=101;
+
+-- QUESTION 6: Delete the record in the parent table where tax_no is 101
+DELETE FROM parent WHERE tax_no=101;
+
+SELECT * FROM parent;
+
+-- QUESTION 7: Delete the parent table
+-- The parent table cannot be deleted unless the child table is deleted.
+
+-- QUESTION 8: Delete the child table
+DROP TABLE child;
+-- DROP TABLE IF EXISTS child;
+
+-- QUESTION 9: Delete the parent table
+DROP TABLE parent;
+
+---
+
+## **ON DELETE CASCADE Usage**
+
+```sql
+CREATE TABLE parent2
+(
+tax_no int PRIMARY KEY,
+company_name VARCHAR(50),
+contact_name VARCHAR(50)
+);
+
+INSERT INTO parent2 VALUES (101, 'Sony', 'Kim Lee');
+INSERT INTO parent2 VALUES (102, 'Asus', 'George Clooney');
+INSERT INTO parent2 VALUES (103, 'Monster', 'Johnny Depp');
+INSERT INTO parent2 VALUES (104, 'Apple', 'Mick Jackson');
+
+SELECT * FROM parent2;
+
+CREATE TABLE child2
+(
+supplier_tax_no int,
+product_id int,
+product_name VARCHAR(50),
+customer_name VARCHAR(50),
+CONSTRAINT fk FOREIGN KEY(supplier_tax_no) REFERENCES parent2(tax_no)
+ON DELETE CASCADE -- Allows deleting the parent table without first deleting the child table
+);
+
+INSERT INTO child2 VALUES(101, 1001,'PC', 'Habip Sanli');
+INSERT INTO child2 VALUES(102, 1002,'Camera', 'Zehra Oz');
+INSERT INTO child2 VALUES(102, 1003,'Watch', 'Mesut Kaya');
+INSERT INTO child2 VALUES(102, 1004,'PC', 'Vehbi Koc');
+INSERT INTO child2 VALUES(103, 1005,'Camera', 'Cemal Sala');
+INSERT INTO child2 VALUES(104, 1006,'Watch', 'Behlul Dana');
+INSERT INTO child2 VALUES(104, 1007,'Camera', 'Eymen Ozden');
+
+SELECT * FROM child2;
+
+-- QUESTION 1: Delete all records from the parent2 table
+-- We were able to delete the records in the parent table without deleting the child table.
+-- (Thanks to ON DELETE CASCADE)
+DELETE FROM parent2;
+
+SELECT * FROM parent2;
+
+-- QUESTION 2: Delete the parent2 table
+-- Thanks to ON DELETE CASCADE, the parent table could be deleted without deleting the child table.
+DROP TABLE parent2 CASCADE;
+
+-- QUESTION 3: Delete the child2 table
+DROP TABLE child2;
+
+/*
+IF THE "ON DELETE CASCADE" COMMAND IS NOT USED IN THE CHILD TABLE:
+
+1) If you try to delete the parent table before deleting the child table, PgAdmin will give an error.
+   That means the parent table cannot be deleted unless the child table is deleted first.
+
+2) If you try to delete a record in the parent table before deleting the related record in the child table, PgAdmin will give an error.
+   That means a record in the parent table cannot be deleted unless the related record in the child table is deleted first.
+
+IF THE "ON DELETE CASCADE" COMMAND IS USED IN THE CHILD TABLE:
+
+1) The parent table can be deleted without deleting the child table.
+   PgAdmin does not give an error.
+
+2) If you try to delete a record in the parent table before deleting the related record in the child table, PgAdmin does not give an error.
+   It deletes the record in the parent table.
+   However, in this case, the related record in the child table will also be deleted.
+*/
+
+CREATE TABLE wholesalers     --> parent
+(
+tax_no int PRIMARY KEY,
+company_name VARCHAR(40),
+contact_name VARCHAR(30)
+);
+
+INSERT INTO wholesalers VALUES (201, 'IBM', 'Kadir Sen');
+INSERT INTO wholesalers VALUES (202, 'Huawei', 'Cetin Hos');
+INSERT INTO wholesalers VALUES (203, 'Ericsson', 'Mehmet Gor');
+INSERT INTO wholesalers VALUES (204, 'Apple', 'Adem Cos');
+
+SELECT * FROM wholesalers;
+
+CREATE TABLE materials     --> child
+(
+supplier_tax_no int,
+material_id int,
+material_name VARCHAR(20),
+customer_name VARCHAR(25),
+CONSTRAINT fk FOREIGN KEY(supplier_tax_no) REFERENCES wholesalers(tax_no)
+ON DELETE CASCADE
+);
+
+INSERT INTO materials VALUES(201, 1001,'Laptop', 'Asli Can');
+INSERT INTO materials VALUES(202, 1002,'Phone', 'Fatih Ak');
+INSERT INTO materials VALUES(202, 1003,'TV', 'Ramiz Ozmen');
+INSERT INTO materials VALUES(202, 1004,'Laptop', 'Veli Tan');
+INSERT INTO materials VALUES(203, 1005,'Phone', 'Cemile Al');
+INSERT INTO materials VALUES(204, 1006,'TV', 'Ali Can');
+INSERT INTO materials VALUES(204, 1007,'Phone', 'Ahmet Yaman');
+
+SELECT * FROM wholesalers;
+SELECT * FROM materials;
+
+-- QUESTION 1: Update the company_name of the wholesaler with tax_no 202 to 'VivoBook'.
+UPDATE wholesalers SET company_name = 'VivoBook'
+WHERE tax_no = '202';
+
+SELECT * FROM wholesalers;
+
+-- QUESTION 2: Update all company names in the wholesalers table to 'NOKIA'.
+UPDATE wholesalers SET company_name = 'NOKIA';
+
+SELECT * FROM wholesalers;
+SELECT * FROM materials;
+
+-- QUESTION 3: Update the company_name to 'Nokia' and contact_name to 'Canan Can' 
+-- for the wholesaler with tax_no 201.
+UPDATE wholesalers SET company_name = 'Nokia', contact_name = 'Canan Can'
+WHERE tax_no = 201;
+
+-- QUESTION 4: Update the contact_name to 'Bilal Han' for wholesalers 
+-- where the company_name is 'Nokia'.
+UPDATE wholesalers SET contact_name = 'Bilal Han' 
+WHERE contact_name = 'Canan Can';
+
+-- QUESTION 5: Update all 'Phone' values in the materials table to 'Phone'.
+UPDATE materials SET material_name = 'Phone' 
+WHERE material_name = 'Telefon';
+
+-- QUESTION 6: Increase the material_id by 1 for all records 
+-- where material_id is greater than 1004 in the materials table.
+UPDATE materials SET material_id = material_id + 1
+WHERE material_id > 1004;
+
+SELECT * FROM materials;
+
+-- QUESTION 7: Update all material_id values in the materials table 
+-- by adding the supplier_tax_no to them.
+UPDATE materials SET material_id = material_id + supplier_tax_no;
+
+SELECT * FROM wholesalers;
+SELECT * FROM materials;
+
+-- QUESTION 8: Update the material_name of the customer named 'Ali Can' 
+-- in the materials table with the company_name 
+-- where the contact_name in the wholesalers table is 'Adem Cos'.
+UPDATE materials SET material_name = (
+    SELECT company_name FROM wholesalers WHERE contact_name = 'Adem Cos'
+)
+WHERE customer_name = 'Ali Can';
+
+-- QUESTION 9: Update the customer_name in the materials table 
+-- where material_name is 'Laptop' with the contact_name 
+-- of the company_name 'Apple' in the wholesalers table.
+UPDATE materials SET customer_name = (
+    SELECT contact_name FROM wholesalers WHERE company_name = 'Apple'
+)
+WHERE material_name = 'Laptop';
+
+---
+
+## **New Example: "Car Table"**
+```sql
+CREATE TABLE cars (
+    id int,
+    brand VARCHAR(30),
+    model VARCHAR(30),
+    price int,
+    mileage int,
+    transmission VARCHAR(20)
+);
+
+INSERT INTO cars VALUES (100, 'Citroen', 'C3', 500000, 5000, 'Automatic' );
+INSERT INTO cars VALUES (101, 'Mercedes', 'C180', 900000, 10000, 'Automatic' );
+INSERT INTO cars VALUES (102, 'Honda', 'Civic', 400000, 15000, 'Manual' );
+INSERT INTO cars VALUES (103, 'Volkswagen', 'Golf', 350000, 20000, 'Manual' );
+INSERT INTO cars VALUES (104, 'Ford', 'Mustang', 750000, 5000, 'Automatic' );
+INSERT INTO cars VALUES (105, 'Porsche', 'Panamera', 850000, 5000, 'Automatic' );
+INSERT INTO cars VALUES (106, 'Bugatti', 'Veyron', 950000, 5000, 'Automatic' );
+
+-- QUESTION: List the highest price in the cars table.
+SELECT MAX(price) AS highest_price FROM cars;
+CREATE TABLE car(
+id int,
+brand varchar(30),
+model varchar(30),
+price int,
+mileage int,
+transmission varchar(20)
+);
+
+INSERT INTO car VALUES(100, 'Citroen', 'C3', 500000, 5000, 'Automatic' );
+INSERT INTO car VALUES(101, 'Mercedes', 'C180', 900000, 10000, 'Automatic' );
+INSERT INTO car VALUES(102, 'Honda', 'Civic', 400000, 15000, 'Manual' );
+INSERT INTO car VALUES(103, 'Volkswagen', 'Golf', 350000, 20000, 'Manual' );
+INSERT INTO car VALUES(104, 'Ford', 'Mustang', 750000, 5000, 'Automatic' );
+INSERT INTO car VALUES(105, 'Porsche', 'Panamera', 850000, 5000, 'Automatic' );
+INSERT INTO car VALUES(106, 'Bugatti', 'Veyron', 950000, 5000, 'Automatic' );
+
+-- QUESTION 1: List the highest price in the car table
+SELECT MAX(price) FROM car;
+
+-- QUESTION 2: List the total sum of prices in the car table
+SELECT SUM(price) FROM car;
+
+-- QUESTION 3: List the average prices in the car table
+SELECT AVG(price) FROM car;
+
+SELECT ROUND(AVG(price)) FROM car; -- Remove decimal places
+
+SELECT ROUND(AVG(price),2) FROM car; -- Display two decimal places
+
+-- QUESTION 4: List the total number of cars in the car table
+SELECT COUNT(id) FROM car;
+
+---
+
+## **New Example: "Jobs Table"**
+```sql
+CREATE TABLE jobs
+(
+id int PRIMARY KEY,
+name VARCHAR(50),
+surname VARCHAR(50),
+job CHAR(9),
+salary int
+);
+	
+	
+INSERT INTO jobs VALUES(1, 'Ali', 'Can', 'Doctor', '20000' );
+INSERT INTO jobs VALUES(2, 'Veli', 'Cem', 'Engineer', '18000');
+INSERT INTO jobs VALUES(3, 'Mine', 'Bulut', 'Lawyer', '17000');
+INSERT INTO jobs VALUES(4, 'Mahmut', 'Bulut', 'Teacher', '15000');
+INSERT INTO jobs VALUES (5, 'Mine', 'Yasa', 'Technician', '13000');
+INSERT INTO jobs VALUES (6, 'Veli', 'Yilmaz', 'Nurse', '12000');
+INSERT INTO jobs VALUES(7, 'Ali', 'Can', 'Carpenter', '10000' );
+INSERT INTO jobs VALUES(8, 'Veli', 'Cem', 'Technologist', '14000');
+
+-- QUESTION 1: Query the jobs table sorted by name
+SELECT * FROM jobs ORDER BY name;
+
+-- QUESTION 2: Sort the jobs table by salary from highest to lowest
+SELECT * FROM jobs ORDER BY salary DESC;
+
+-- QUESTION 3: Query the jobs table where name is 'Ali',
+-- sorting by salary from highest to lowest
+SELECT * FROM jobs WHERE name='Ali' ORDER BY salary DESC;
+
+-- QUESTION 4: Query the jobs table where surname is 'Bulut',
+-- sorting by salary in ascending order
+SELECT * FROM jobs WHERE surname='Bulut' ORDER BY salary;
+
+-- QUESTION 5: List the first 2 records where id is greater than 5
+SELECT * FROM jobs WHERE id>5 LIMIT 2;
+
+-- QUESTION 6: List the top 3 highest-paid employees in the jobs table
+SELECT * FROM jobs ORDER BY salary DESC LIMIT 3;
+
+-- QUESTION 7: Retrieve 5 records after skipping the first 2 in the jobs table
+SELECT * FROM jobs OFFSET 2 LIMIT 5; -- OFFSET skips the first 2 records
+
+-- QUESTION 8: List the 4th, 5th, and 6th highest-paid employees in the jobs table
+SELECT * FROM jobs ORDER BY salary DESC OFFSET 3 LIMIT 3;
+
+---
+
+## **Joining Tables: Movies & Actors**
+```sql
+CREATE TABLE movies
+(
+movie_id int,
+movie_name varchar(30),
+category varchar(30)
+);
+
+INSERT INTO movies VALUES (1, 'Eyvah Eyvah', 'Comedy');
+INSERT INTO movies VALUES (2, 'Kurtlar Vadisi', 'Action');
+INSERT INTO movies VALUES (3, 'Eltilerin Savasi', 'Comedy');
+INSERT INTO movies VALUES (4, 'Aile Arasinda', 'Comedy');
+INSERT INTO movies VALUES (5, 'GORA', 'Sci-Fi');
+INSERT INTO movies VALUES (6, 'Organize Isler', 'Comedy');
+INSERT INTO movies VALUES (7, 'Babam ve Oglum', 'Drama');
+
+CREATE TABLE actors
+(
+id int,
+actor_name varchar(30),
+movie_id int
+);
+
+INSERT INTO actors VALUES (1, 'Ata Demirer', 1);
+INSERT INTO actors VALUES (2, 'Necati Sasmaz', 2);
+INSERT INTO actors VALUES (3, 'Gupse Ozay', 3);
+INSERT INTO actors VALUES (4, 'Engin Gunaydin', 4);
+INSERT INTO actors VALUES (5, 'Cem Yilmaz', 5);
+
+-- QUESTION 1: List all movie_name, category, and actor_name
+-- METHOD 1: LEFT JOIN
+SELECT movie_name, category, actor_name FROM movies AS A
+LEFT JOIN actors AS B
+ON A.movie_id = B.movie_id;
+
+-- METHOD 2: RIGHT JOIN
+SELECT movie_name, category, actor_name FROM actors AS B
+RIGHT JOIN movies AS A
+ON A.movie_id = B.movie_id;
+
+-- QUESTION 2: List all actor_name and movie_name
+
+-- METHOD 1: LEFT JOIN
+SELECT actor_name, movie_name FROM actors AS A 
+LEFT JOIN movies AS B
+ON A.movie_id = B.movie_id;
+
+-- METHOD 2: RIGHT JOIN
+SELECT actor_name, movie_name FROM movies AS A 
+RIGHT JOIN actors AS B
+ON A.movie_id = B.movie_id;
+
+---
+
+## **Joining QA Courses & Developer Courses**
+```sql
+CREATE TABLE qa_courses
+(
+course_id int,
+course_name varchar(30),
+course_hours varchar(30)
+);
+
+INSERT INTO qa_courses VALUES (101, 'Core Java', 40);
+INSERT INTO qa_courses VALUES (102, 'Selenium', 30);
+INSERT INTO qa_courses VALUES (103, 'API', 15);
+INSERT INTO qa_courses VALUES (104, 'SQL', 10);
+INSERT INTO qa_courses VALUES (105, 'SDLC', 10);
+INSERT INTO qa_courses VALUES (106, 'LAMDA', 12);
+
+CREATE TABLE developer_courses
+(
+course_id int,
+course_name varchar(30),
+course_hours varchar(30)
+);
+
+INSERT INTO developer_courses VALUES (101, 'Core Java', 40);
+INSERT INTO developer_courses VALUES (103, 'API', 15);
+INSERT INTO developer_courses VALUES (104, 'SQL', 10);
+INSERT INTO developer_courses VALUES (105, 'SDLC', 10);
+INSERT INTO developer_courses VALUES (106, 'LAMDA', 12);
+INSERT INTO developer_courses VALUES (107, 'Spring Framework', 20);
+INSERT INTO developer_courses VALUES (108, 'Micro Services', 12);
+
+-- QUESTION 4: Query unique courses using JOIN between QA and Developer courses
+SELECT A.course_id, A.course_name, A.course_hours FROM qa_courses AS A
+LEFT JOIN developer_courses AS B
+ON A.course_name = B.course_name
+UNION
+SELECT B.course_id, B.course_name, B.course_hours FROM qa_courses AS A
+RIGHT JOIN developer_courses AS B
+ON A.course_name = B.course_name;
 

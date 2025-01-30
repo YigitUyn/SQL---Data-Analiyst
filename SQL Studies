@@ -1,1 +1,218 @@
+<h3 align="left">Languages and Tools:</h3>
+<p align="left"> <a href="https://www.mongodb.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="40" height="40"/> </a> <a href="https://www.microsoft.com/en-us/sql-server" target="_blank" rel="noreferrer"> <img src="https://www.svgrepo.com/show/303229/microsoft-sql-server-logo.svg" alt="mssql" width="40" height="40"/> </a> <a href="https://www.mysql.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40"/> </a> <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="40" height="40"/> </a> <a <h3 align="left">Languages and Tools:</h3>
+<p align="left"> <a href="https://www.mongodb.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="40" height="40"/> </a> <a href="https://www.microsoft.com/en-us/sql-server" target="_blank" rel="noreferrer"> <img src="https://www.svgrepo.com/show/303229/microsoft-sql-server-logo.svg" alt="mssql" width="40" height="40"/> </a> <a href="https://www.mysql.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40"/> </a> <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="40" height="40"/> </a> <a href="https://www.sqlite.org/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/sqlite/sqlite-icon.svg" alt="sqlite" width="40" height="40"/> </a> </p>
 
+/*                               
+* * * * * * * * * * * * * * *    char 
+TABLES                        *    varchar 
+HEADERS        ==> Title      *    real -- Used for decimal numbers (like Double)
+ROW (RECORD)   ==> Row        *    date 
+COLUMN (FIELD) ==> Column     *
+* * * * * * * * * * * * * * *
+
+                                     * * * * * * * * * * * * * *
+      			                     * SQL SERVER DATA TYPES *
+									 * * * * * * * * * * * * * * 
+									 
+											    ↓ ↓ ↓
+												↓ ↓ ↓
+											    ↓ ↓ ↓
+												
+      				 	   		     * * * * * * * * * * * * * *
+      				  	      1)     *  Text Data Types  *
+									 * * * * * * * * * * * * * * 
+									 
+		   
+char           -- Used for fixed-length strings.
+               -- Does not support Unicode and is used as char(n).
+			   -- Can store up to 8000 characters.
+				  
+nchar          -- Supports Unicode.
+               -- Can store up to 4000 characters.
+				  
+varchar        -- Used for variable-length strings.
+               -- Unlike char, it only occupies space equal to the data size.
+			   -- Can store up to 8000 characters.
+			   -- Recommended when storing text of varying lengths.
+			   -- varchar(MAX) can store up to 2GB.
+			   
+nvarchar       -- Occupies space equal to the data size.
+               -- Unlike varchar, it supports Unicode.
+			   -- Can store up to 4000 characters.
+			   
+text           -- Takes up its entire allocated space even if the input is smaller.
+               -- Can store up to 2GB of text data but does not support Unicode.
+				  
+ntext          -- Unlike text, it occupies only the required space and supports Unicode.
+
+real           -- Used for decimal numbers (similar to Double).
+
+date           -- Used for storing date values.
+
+
+	      							 * * * * * * * * * * * * * * * *
+      				  	      2)     * BINARY DATA TYPES *
+									 * * * * * * * * * * * * * * * * 
+									 
+									 
+binary         -- A binary data type that represents 1s and 0s.
+               -- Used for fixed-length binary data.
+			   -- Can store up to 8000 bytes.									 
+
+varbinary      -- Unlike binary, it only occupies the size of the actual data.
+               -- Recommended for data with variable sizes.
+
+image          -- Used for storing image files.
+               -- Can store up to 2GB.
+			   -- Prefer using varbinary(MAX) instead.
+			   
+			   
+
+		                             * * * * * * * * * * * * *   
+      				  	      3)     * NUMERIC DATA TYPES  * 
+									 * * * * * * * * * * * * * 		
+									 
+									 
+bit             -- A 1-byte integer data type.
+                -- Typically used for storing Boolean (yes/no) values.
+			   
+int             -- A 4-byte integer that can store values between -2 billion and +2 billion.			   
+			   
+bigint          -- An 8-byte integer that can store values between -2⁶³ and 2⁶³.	
+
+smallint        -- A 2-byte integer that can store values between -32,768 and 32,768.
+	
+tinyint         -- A 1-byte integer that can store values between 0–255.
+
+decimal,numeric -- Both have the same functionality.
+                -- Allows specifying the precision of the stored numbers.
+				-- The storage size varies based on the defined precision.
+				-- Can store numbers between -10³⁸ and 10³⁸ with decimal precision.
+
+
+
+                                     * * * * * * * * * * * * *   
+      				  	      4)     * MONETARY DATA TYPES  * 
+									 * * * * * * * * * * * * * 	
+									 
+									 
+money          -- An 8-byte data type used to store monetary values between -2⁶⁴ and 2⁶⁴.
+               -- Supports up to 4 decimal places.									 
+
+smallmoney     -- A 4-byte data type used to store monetary values between -214,000 and 214,000.
+               -- Supports up to 4 decimal places.
+			   
+			   
+			   
+			                         * * * * * * * * * * * * * * *  
+      				  	      5)     * DATE-TIME DATA TYPES  * 
+									 * * * * * * * * * * * * * * *	
+			   
+			   
+date           -- Stores dates in YYYY-MM-DD format.
+               -- Takes up 3 bytes of storage.	
+			   
+smalldatetime  -- Stores date and time values in year-month-day and hour-minute-second format.
+               -- Takes up 4 bytes of storage.
+			   
+datetime       -- Stores date and time values in YYYY-MM-DD format.
+               -- Can store values between January 1, 1753, and December 31, 9999.
+               -- Takes up 8 bytes of storage.
+			   
+datetime2      -- Similar to datetime but supports values from January 1, 0001, to December 31, 9999.
+                  It also has higher precision for fractional seconds.
+			   -- Storage size varies between 6-8 bytes.
+			   
+time           -- Stores only time values (hour-minute-second-millisecond).
+                  Takes up 3-5 bytes, depending on precision.
+				  
+datetimeoffset -- Used for storing timezone-aware datetime values.
+
+
+                                     * * * * * * * * * * * *
+      				  	      6)     * OTHER DATA TYPES  * 
+									 * * * * * * * * * * * *
+									 
+									 
+sql_variant        -- Can store different data types such as numbers, text, or binary data.
+                      Useful when a column needs to store multiple data types.
+
+xml                -- Used for storing XML data.
+                   -- Can store up to 2GB.
+				   -- The actual storage size depends on the XML content.
+
+geometry           -- Stores Euclidean coordinate system data.
+                   -- Used for storing geometric shapes such as width, height, and depth.
+
+timestamp          -- A binary data type that stores a unique value for each record modification.
+
+uniqueidentifier   -- A 16-byte unique GUID (Globally Unique Identifier).
+                   -- Ensures that each record has a unique identifier.
+
+hierarchyid        -- Used for storing hierarchical data structures like trees.
+
+geography          -- Stores geographic coordinates and GPS data.
+
+
+					                 * * * * * * * * * * 
+      				  	             *  SQL COMMANDS  * 
+									 * * * * * * * * * * 
+			   
+	 SQL commands are divided into "4" main categories:
+		 
+			 * Data Query Language (DQL) *
+SELECT : Retrieves data from the database.
+
+
+             * Data Manipulation Language (DML) *
+INSERT : Adds new data to the database.
+UPDATE : Updates existing records in the database.
+DELETE : Deletes records from the database.
+
+
+             * Data Definition Language (DDL)  *
+CREATE : Creates a database or a table.
+ALTER  : Modifies a database or a table.
+DROP   : Deletes a database or a table.
+
+
+             * Data Control Language (DCL) *
+GRANT  : Grants a user specific permissions.
+REVOKE : Removes permissions from a user.
+*/
+
+
+Create Database sqlpractice; -- Used to create a database.
+
+-- DDL - DATA DEFINITION LANGUAGE
+-- CREATE TABLE
+CREATE TABLE students
+(
+student_id CHAR(7),
+first_name VARCHAR(20),
+last_name VARCHAR(25),
+gpa REAL,
+registration_date DATE
+);
+
+SELECT * FROM students;
+
+-- CREATE A NEW TABLE FROM AN EXISTING TABLE
+CREATE TABLE student_grades
+AS 
+SELECT first_name, last_name, gpa FROM students;
+
+SELECT * FROM student_grades;
+
+-- DML - DATA MANIPULATION LANGUAGE
+-- INSERT (Adding data to a database)
+INSERT INTO students VALUES ('1234567','Hanzel','KARAAGAC','95.00',now());
+INSERT INTO students VALUES ('1940190','Mila','KARAAGAC',85.00,'2022-12-04');
+SELECT * FROM students;
+
+-- PARTIAL DATA INSERTION
+INSERT INTO students (first_name, last_name) VALUES ('Tomris','KARAAGAC');
+
+SELECT * FROM students;
+
+DROP TABLE IF EXISTS students; -- Deletes the table.
